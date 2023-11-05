@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+
+import { TodoList } from "./components/todoList";
 
 function App() {
+  const [asdasd, setToDos] = useState([
+    {
+      name: "Todo 1",
+      status: "Done",
+    },
+    {
+      name: "Todo 2",
+      status: "Done",
+    },
+    {
+      name: "Todo 3",
+      status: "Pending",
+    },
+    {
+      name: "Todo 4",
+      status: "Done",
+    },
+    {
+      name: "Todo 5",
+      status: "Deleted",
+    },
+  ]);
+  const [inputValue, setInputValue] = useState("");
+
+  const onDelete = (id) => {
+    setToDos((prevValue) => [...prevValue.filter((_, elId) => elId !== id)]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <TodoList toDos={asdasd} onDelete={onDelete} />
+      <input
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          setToDos((prevValue) => {
+            return [...prevValue, { name: inputValue, status: "New" }];
+          });
+          setInputValue("");
+        }}
+      >
+        Add todo
+      </button>
+    </>
   );
 }
 
